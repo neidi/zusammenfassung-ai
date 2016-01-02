@@ -12,9 +12,9 @@ Der letzte Punkt bedeutet, dass immer die Option gewählt wird, bei dem das Syst
 
 Wenn die Umwelt aber komplex ist, wird es schwierig, alle nötigen Informationen zu verarbeiten, weswegen man in diesen Situationen auch von 'eingeschränkter Rationalität' spricht.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=0.7\linewidth]{fig/rationaler_agent}
+\includegraphics[width=0.4\linewidth]{fig/rationaler_agent}
 \caption{Übersicht Aufbau rationaler Agent}
 \label{fig:rationaler_agent}
 \end{figure}
@@ -26,9 +26,9 @@ Ein Mensch hätte also z.B. Augen, Tastsinn \& Geruchssinn als Sensoren, und Arm
 
 Ein Saugroboter wie in Bild \ref{fig:saugroboter} könnte z.B. wahrnehmen, ob er in Feld \textit{A} oder \textit{B} ist und könnte feststellen, ob das aktuelle Feld dreckig ist oder nicht. Er könnte dann als Aktionen entweder Saugen, das Feld wechseln oder auch nichts tun.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.7\linewidth]{fig/saugroboter}
+	\includegraphics[width=0.4\linewidth]{fig/saugroboter}
 	\caption{Rationaler Agent Saugroboter}
 	\label{fig:saugroboter}
 \end{figure}
@@ -74,9 +74,9 @@ Die Umgebung kann nach folgenden Eigenschaften charakterisiert werden;
 
 \section{Typen von Agenten}
 \subsection{Simple Reflex}
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=0.7\linewidth]{fig/reflex_agent}
+\includegraphics[width=0.5\linewidth]{fig/reflex_agent}
 \caption{Reflex Agent}
 \label{fig:reflex_agent}
 \end{figure}
@@ -84,9 +84,9 @@ Reflex Agenten nehmen den Input aus der Welt, interpretieren ihn (z.B. bei Video
 
 Es können so auch unendliche Wiederholungen entstehen, wenn die Umgebung nicht ganz-erfassbar ist. Das ist lösbar mittels Zufallsgeneratoren. So kann ein Staubsauger, der einfach immer nach links gehen würde, auch einmal nach rechts gehen. Siehe als Übersicht auch Abbildung \ref{fig:reflex_agent};
 \subsection{Model-based Reflex Agent}
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=0.7\linewidth]{fig/model_agent}
+\includegraphics[width=0.5\linewidth]{fig/model_agent}
 \caption{Model Agent}
 \label{fig:model_agent}
 \end{figure}
@@ -96,27 +96,27 @@ Der Model-based Reflex Agent speichert zusätzlich noch sein \textbf{internes We
 Wahnsinn, jetzt weiss ich, wie sich die Welt verändert. Was will ich aber genau? Was ist der Sinn des Lebens? Was sind meine Ziele? 
 
 Das hat der \textit{Goal-based Agent} nämlich - Ziele. Es evaluiert jetzt einfach zusätzlich noch, wie sich seine Aktionen auf das Erreichen seines gewünschten Ziels auswirken wird.
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=0.7\linewidth]{fig/goal_agent}
+\includegraphics[width=0.5\linewidth]{fig/goal_agent}
 \caption{Goal Based}
 \label{fig:goal_agent}
 \end{figure}
 
 \subsection{Utility-Based}
 Wenn jetzt mehrere Varianten zur Verfügung stehen, kann der Agent mit seiner \textit{utility-Funktion} entscheiden, welche dieser Aktionen ihm am meisten nützt.
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=0.7\linewidth]{fig/utility_agent}
+\includegraphics[width=0.5\linewidth]{fig/utility_agent}
 \caption{Utility Agent}
 \label{fig:utility_agent}
 \end{figure}
 
 \subsection{Learning}
 Lernende Agenten starten mit einer unbekannten Umgebung und ohne Wissen. Sie haben ein \textbf{learning element}, mit dem sie Verbesserungen am \textbf{performance element} ausführen, welches zuständig ist für die Auswahl von Aktionen. Der \textbf{critic} ist etwas externes, dass die Performance des Agenten bestimmt. Der \textbf{problem generator} bestimmt auch Aktionen, mit denen der Agent etwas dazulernen kann, er stellt sich also selbst Aufgaben, damit er testen kann ob das gut war oder nicht.
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=0.7\linewidth]{fig/learning_agent}
+\includegraphics[width=0.5\linewidth]{fig/learning_agent}
 \caption{Learning Agent}
 \label{fig:learning_agent}
 \end{figure}
