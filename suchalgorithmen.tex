@@ -162,3 +162,18 @@ Wenn der Suchraum allerdings noch Schlaufen beinhaltet, so muss noch die besucht
 b^m \approx O(b^m)
 \end{displaymath}
 
+\subsection{Depth-Limited Search (DLS)}
+DLS ist DFS, einfach mit einem Limit wie tief die Suche gehen darf. Läuft jetzt nicht mehr unendlich, aber wenn die Lösung tiefer ist als das Limit wird sie natürlich nicht gefunden.
+\subsubsection{Zeitbedarf \& Zeitkomplexität}
+Gleich wie DFS, einfach anstatt Tiefe des Baums die Tiefe des Suchlimits. Das heisst Zeitbedarf ist jetzt (\textbf{l} = Limit)
+\begin{displaymath}
+b^l \approx O(b^l)
+\end{displaymath}
+\subsubsection{Speicherbedarf \& Speicheromplexität}
+... und Speicherbedarf:
+\begin{displaymath}
+bl \approx O(bl)
+\end{displaymath}
+
+\subsection{Iterative Deepening Search (IDS)}
+Wie DLS, einfach wird das Limit schrittweise angehoben. Ist also irgendwie eine Mischung aus BFS und DFS. Die ersten Schritte der Suche werden immer wiederholt. Es findet immer eine Lösung wenn eine da ist und ist sogar optimal, wenn die Kostenfunktion nicht abnimmt mit der Tiefe des Suchbaums.
