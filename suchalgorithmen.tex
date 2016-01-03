@@ -41,7 +41,7 @@ Im Beispiel Arad nach Bukarest sind diese Eigenschaften gegeben. Der Agent weiss
 \centering
 \includegraphics[width=0.6\linewidth]{fig/8_puzzle}
 \caption{Das Spiel 8 Puzzle}
-\label{fig:8_puzzle}
+\label{fig:8puzzle}
 \end{figure}
 
 In diesem Spiel wäre der aktuelle Status die Position der Spielsteine. Die Aktionen wären \textit{bewege das leere Feld} (simpler als die anderen zu bewegen) und der Goal Test wäre dann einfach \textit{ist der Zielzustand = aktueller Zustand}. Die Pfadkosten, sind hier definiert als jede Aktion kostet 1.
@@ -60,14 +60,13 @@ In diesem Spiel geht es darum, 8 Damen auf einem Feld so zu platzieren, dass kei
 		\caption{Zielzustand 2}
 	\end{subfigure}
 	\caption{Mögliche Zielzustände}
-	\label{fig:send-receive-message}
 \end{figure} 
 
 Der aktuelle Status wäre wieder die Position der Damen auf dem Brett, der Initialstatus wäre ein leeres Brett, die \textit{Successor function}, dass man eine Dame zum Brett hinzufügt, und der Goal Test ist auch klar - es sind 8 Damen auf dem Brett die sich nicht bedrohen. Die Pfadkosten sind hier eigentlich egal, wir sind ja nur an der Lösung interessiert.
 
 Optimaler wäre die Sucessor Function so zu definieren, dass man die Damen einfach Spaltenweise hinzufügt.
 
-\subsection{Suchbäume}
+\subsection{Suchbaum}
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.5\linewidth]{fig/search_tree}
@@ -80,14 +79,86 @@ Ein Suchbaum beschreibt die Reihenfolge, in der Knoten im Suchraum besucht werde
 	\item[Repeated State] Stati, welche im aktuellen Suchbaum schonmal vorkamen.
 	\item[Redundant Paths] Wenn 2 Pfade gefunden werden, welche zum selben Status gelangen.
 	\item[Search Space] = Suchraum. Ein Graph, indem die Knoten alle Stati im \textit{State Space} darstellen und die durch entsprechende Aktionen verbunden sind.
-	\item [Node expansion] Generiert alle Nachfolge-Knoten, gegeben die Aktionen.
-	\item []
-\begin{figure} [h!]
-\centering
-\includegraphics[width=0.2\linewidth]{fig/search_space}
-\caption{Suchraum}
-\label{fig:search_space}
-\end{figure}
+	\item[Node expansion] Generiert alle Nachfolge-Knoten, gegeben die Aktionen.
+	\item[Search Strategy] Bestimmt, welcher Knoten als nächstes expandiert / exploriert wird.
+	\item[Tree-based Search] Suche bei der nur die Frontier gespeichert wird und die bereits besuchte Knoten immer wieder besuchen kann.
+	\item[Graph-based Search] Suche bei der zusätzlich die besuchten Knoten ebenfalls gespeichert werden.
+	\item[Dead End] Wenn bei einem Knoten keine unbekannten Kinder mehr vorhanden sind.
+	\item[Explored Set] Ein Set aus besuchten Knoten. Wird nicht benötigt, wenn der Suchraum keine Schleifen enthält.
 \end{description}
 
+\subsection{Suchraum}
+\begin{figure} [h!]
+	\centering
+	\includegraphics[width=0.2\linewidth]{fig/search_space}
+	\caption{Beispiel für Suchraum 1}
+	\label{fig:search_space}
+\end{figure}
+
+\begin{figure} [h!]
+	\centering
+	\includegraphics[width=0.2\linewidth]{fig/suchraum}
+	\caption{Beispiel für Suchraum 2}
+	\label{fig:suchraum}
+\end{figure}
+
+Dieser Suchraum in Abbildung \ref{fig:suchraum} hat bestimmte Eigenschaften.
+\begin{description}
+	\item[b] Branching Factor - max. Anzahl Kinder eines Knotens - hier \textbf{4}
+	\item[d] Depth of shallowest goal - hier wäre die Tiefe des ersten grünen Knotens \textbf{2}.
+	\item[m] Maximum Length - Maximale Pfadlänge - hier \textbf{3}.
+\end{description}
+
+\subsection{Breadth-First Search (BFS)}
+Hier wird zuerst in die Breite gesucht. Das heisst, dass wenn ein Knoten gefunden wird, wird er in eine FIFO Queue gesteckt, welche dann nacheinander abgearbeitet wird.
+\begin{figure} [h!]
+	\centering
+	\includegraphics[width=0.4\linewidth]{fig/bfs_search}
+	\caption{Breadth-First Search}
+	\label{fig:bfs}
+\end{figure}
+BFS findet alle Lösungen und wenn die Aktionen alle dieselben positiven (oder null) Kosten haben, dann findet es auch die optimale Lösung. Es findet ja immer die Lösung, die am wenigsten tief im Baum vorhanden ist.
+\subsubsection{Zeitbedarf \& Zeitkomplexität}
+Ein BFS Suchbaum muss ja bis zur Tiefe des Lösungsobjekt komplett aufgebaut werden. Wenn \textbf{b} der \textit{branching factor} ist und \textbf{d} die Tiefe der Lösung heisst das, dass diese Anzahl an Knoten besucht werden müssen:
+
+\begin{displaymath}
+	\displaystyle\sum_{i=1}^{d} b^i = b + b^2 + b^3 + \dots + b^d \approx O(b^d)
+\end{displaymath}
+
+\subsubsection{Speicherbedarf \& Speicherkomplexität}
+BFS speichert offenbar jeden besuchten Knoten ab, da der Pfad zur gefundenen Lösung ja auch bekannt sein muss. Daher ist der Speicherbedarf, gleich wie der Zeitbedarf:
+
+\begin{displaymath}
+\displaystyle\sum_{i=1}^{d} b^i = b + b^2 + b^3 + \dots + b^d \approx O(b^d)
+\end{displaymath}
+Die Frontier hat \(O(b^d)\) und das explored set \(O(b^{d-1})\).
+
+\subsection{Depth-First Search (DFS)}
+Die Depth First Search ist ähnlich wie die Breadth-First Search. Die gefundenen Knoten werden hier aber in eine LIFO Queue gesteckt. Das bewirkt, dass zuerst in die Tiefe gesucht wird und erst dann schrittweise in die Breite.
+\begin{figure} [h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{fig/dfs_search}
+	\caption{Depth-First Search}
+	\label{fig:dfs}
+\end{figure}
+DFS ist keine optimale Suche, es kann sein dass eine Lösung tief unten 'vergraben' liegt, und wenn sie dann unendlich tief ist, geht sie dort natürlich auch suchen. Wenn die besuchten Knoten zusätzlich nicht gespeichert werden, dann kann sie auch für immer im Kreis herum suchen.
+\subsubsection{Zeitbedarf \& Zeitkomplexität}
+Eine DFS Suche findet im schlechtesten Fall die Lösung erst wenn der ganze Baum durchsucht wurde. \textbf{m} heisst ja die maximale Tiefe und \textbf{b} wieder der \textit{branching factor.}
+
+\begin{displaymath}
+	b^m \approx O(b^m)
+\end{displaymath}
+
+\subsubsection{Speicherbedarf \& Speicheromplexität}
+DFS muss nicht der gesamte Baum speichern, sondern nur der Pfad der gerade zum Objekt führt.
+
+\begin{displaymath}
+bm \approx O(bm)
+\end{displaymath}
+In Abbildung \ref{fig:dfs} sieht man das schön. Dort hat der Baum \(b=2, m=3\). In keinem Fall müssen also mehr als \(2*3=6\) Knoten gespeichert werden. \\ \newline
+Wenn der Suchraum allerdings noch Schlaufen beinhaltet, so muss noch die besuchten Knoten gespeichert werden. Das kann bedeuten, dass im schlechtesten Fall der gesamte Baum abgespeichert werden muss.
+
+\begin{displaymath}
+b^m \approx O(b^m)
+\end{displaymath}
 
