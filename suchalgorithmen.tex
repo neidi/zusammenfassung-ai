@@ -286,3 +286,54 @@ Heuristics are educated guesses, they help us to direct the search in the search
 A heuristic which underestimates the real costs to the goal state.
 \subsubsection{What can happen to A* if it is used with a non-admissible heuristic?}
 It's guaranteed to find the optimal solution, because the too highly estimated nodes are not further evaluated.
+\section{Local Search}
+Wenn wir nicht daran interessiert sind, wie wir zur Lösung gelangen, sondern nur die Lösung wichtig ist, können wir auch Local Search benutzen, das heisst wir starten irgendwo im Suchraum, evaluieren den aktuellen Knoten und bewegen uns irgendwie dorthin wo wir es besser vermuten. \textit{Complete} bedeutet im Kontext der lokalen Suche, dass es eine Lösung findet und \textit{Optimal} meint, dass die Lösung dann auch das globale Maximum / Minimum ist.
+
+\subsection{Hillclimbing}
+Hier nimmt man irgend einen Knoten und generiert die Nachfolge Knoten daraus und jagt diese durch die Evaluierungsfunktion. Man nimmt dann einfach den besten Knoten und fangt wieder von vorne an. Also man geht einfach so weit rauf wies gerade geht, findet aber nicht immer eine Lösung und diese ist auch nicht immer optimal.
+\begin{figure} [h!]
+	\centering
+	\includegraphics[width=0.4\linewidth]{fig/8queens_hillclimbing}
+	\caption{Hillclimbing mit den 8 Queens}
+	\label{fig:8queens_hillclimbing}
+\end{figure}
+Hier im Beispiel ist wieder das 8 Damen Problem. Die Damen sind wieder jeweils in einer Spalte, dann wirds einfacher. Für jede Spalte wählt man jetzt das Feld für die Dame aus, an dem sich am wenigsten Damen attackieren. 
+\subsubsection{Limitationen von Hillclimbing}
+Hillclimbing ist aber nicht wirklich gut für dieses Problem, nur in 14\% aller Fälle, führt dieses Vorgehen auch zur Lösung. Sonst bleibt es irgendwo eben in einem lokalen Minima oder einem Plateau - rundherum ist es nur flach - stecken. Was macht man in so einem Fall? 
+\subsection{Random Restart}
+Entweder man fängt wieder von vorne an und wählt zufällig einen anderen Ausgangspunkt und steigt da hoch. Theoretisch findet man so immer die Lösung, da der Anfangsstatus irgendwann zufällig als der initial Status generiert wird. Funktioniert super wenn es nicht so viele Lokale Maximas oder Plateaus gibt. Geht weniger gut wenn es exponentiell viele lokale Maximas gibt - siehe NP Probleme.
+\subsection{Random Walk}
+Oder man geht ab und zu auch mal wieder irgendwie gerade aus oder wieder runter.
+\subsection{Tabu Search}
+Man merkt sich, wo man schon war und geht da nicht mehr hin bei der Suche, weil dort wars ja nicht optimal.
+\subsection{Simulated Annealing}
+Zuerst wird häufig herumgesprungen, dann mit der Zeit immer weniger. Die Abnahme des Herumspringens bezeichnet man als \textit{cooling}. 
+\subsection{Genetische Algorithmen}
+Jetzt wird die Suche umgedreht - aus zwei Knoten generiert man einen neuen Knoten. Die Basis Idee stammt aus der Evolution und man geht nach dem folgenden Schema vor:
+\begin{enumerate}
+	\item Kreuzen von Genen
+	\item Zufälliges Mutieren
+	\item Selektieren der Besten
+\end{enumerate}
+Man könnte z.B. die Stati als String abspeichern und diese aufsplitten und zufällig rekombinieren und danach wieder durch einen Evaluations Algorithmus laufen lassen. \\ \newline
+Genetische Algorithmen sind aber nicht gut zur Optimiering - ansonsten wären wir ja alle gleich. Man findet aber eine Anzahl an guten Lösungen - was auch der Sinn der Evolution ist, das Überleben unter sich verändernden Bedingungen.
+\subsection{Ant Colony Optimization}
+Warum sucht eigentlich immer nur einer? Nehmen wir mehrere, die Suchen! Analog der Optimierung von Pfaden von Ameisenkolonien versucht man das zu lösen.
+\subsection{Summary Questions}
+\subsubsection{How do local and systematic search methods differ?}
+Systematische Suchen besuchen jeden Zustand von einem Anfangszustand aus, bis sie etwas gefunden haben. Lokale Suchen fangen irgendwo einmal an.
+\subsubsection{How do hillclimbing and simulated annealing work?}
+Hillclimbing sucht das nächste lokale Maximum und Simmulated annealing macht dasselbe, springt noch etwas herum, mit der Zeit springt es aber immer weniger herum (cooldown) und sollte dann bei einem möglichst guten Maxima landen.
+\subsubsection{What can we say about the theoretical properties of local search methods?}
+\begin{itemize}
+	\item Nicht vollständig
+	\item Nicht optimal
+	\item Wenig Speicherverbrauch
+	\item Laufzeit selbst wählbar - z.B. wie viele Generationen man haben möchte.
+\end{itemize}
+\subsubsection{What techniques exist to escape from local minima and plateaus?}
+Random Restart, Random Walk
+\subsubsection{Why does local search often work well in practice?}
+Weil es muss nicht unbedingt die optimale Lösung sein, einfach eine gute Lösung.
+\subsubsection{What other ideas for local search techniques exist?}
+Biologische Ansätze wie Schwarmintelligenz oder genetische Algorithmen.
