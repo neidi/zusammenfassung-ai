@@ -176,4 +176,113 @@ bl \approx O(bl)
 \end{displaymath}
 
 \subsection{Iterative Deepening Search (IDS)}
-Wie DLS, einfach wird das Limit schrittweise angehoben. Ist also irgendwie eine Mischung aus BFS und DFS. Die ersten Schritte der Suche werden immer wiederholt. Es findet immer eine Lösung wenn eine da ist und ist sogar optimal, wenn die Kostenfunktion nicht abnimmt mit der Tiefe des Suchbaums.
+Wie DLS, einfach wird das Limit schrittweise angehoben. Ist also irgendwie eine Mischung aus BFS und DFS. Die ersten Schritte der Suche werden immer wiederholt, was aber sich aber nicht auf die Gesamtkomplexität auswirkt. Es findet immer eine Lösung wenn eine da ist und ist sogar optimal, wenn die Kostenfunktion nicht abnimmt mit der Tiefe des Suchbaums.
+
+\subsubsection{Zeitbedarf \& Zeitkomplexität}
+Komplexität gleich wie DLS / DFS, einfach anstatt Limit wieder der Gesamte Baum. Aber der echte Zeitbedarf ist etwas grösser, da ja jeder Knoten besucht wird.
+\begin{displaymath}
+	(d)b+(d-1)b^2+\dots +3b^{d-2}+2b^{d-1}+1b^{d} \approx O(b^d)
+\end{displaymath}
+\subsubsection{Speicherbedarf \& Speicheromplexität}
+... und Speicherbedarf ebenfalls:
+\begin{displaymath}
+	bd \approx O(bd)
+\end{displaymath}
+
+\subsection{Uniform Cost Search (UCS)}
+Hier werden wieder die Nodes analog DFS und BFS gefunden. Die Queue hier ist aber keine FIFO oder LIFO, sondern eine \textbf{Priority Queue}. Das heisst, dass die gefundenen Nodes anhand ihrer bisherigen \textbf{Gesamt-Pfadkosten} sortiert werden und zuerst die Knoten expandiert werden, welche die geringsten Kosten haben. So findet UCS die optimale Lösung, sofern die Nachfolgeknoten immer grössere Gesamtkosten haben als der aktuelle Knoten.\\ \newline
+Wichtig bei der Implementation wäre noch, dass nicht beim Finden, resp. expandieren der Frontier getestet wird, ob dies ein Zielknoten ist, sondern erst, wenn der nächste Knoten aus der sortierten Queue genommen wird. Ansonsten wäre das Resultat wieder nicht optimal. Zudem wird, wenn ein Knoten gefunden wird mit niedrigeren Kosten als derselbe Knoten hat, der in der Frontier vorkommt, dieser in der Frontier ersetzt.\\ \newline
+Wenn ein Pfad 0 oder weniger Kostet und unendliche tief runter geht, dann bleibt UCS dort stecken, weil es wirklich nur die Kosten anschaut.
+
+\subsubsection{Zeit- \& Speicherkomplexität}
+\begin{displaymath}
+O(b^{d+1})  \textrm{ wenn alle Aktionskosten identisch sind}
+\end{displaymath}
+\begin{displaymath}
+O(b^{1+\left\lfloor{o/c}\right \rfloor })  \textrm{ wenn sie nicht identisch sind. o = Kosten optimale Lösung, c = minimale Kosten einer Aktion}.
+\end{displaymath}
+
+
+\subsection{Fragen}
+\subsubsection{By which means are search problems formulated?}
+\begin{enumerate}
+	\item Zielzustand formulieren
+	\item Zustandsraum definieren
+	\item Mögliche Aktionen festlegen
+	\item Suchkosten - suche ich unendlich lange oder mache ich mal
+	\item Aktionskosten - Pfadkosten
+\end{enumerate}
+\subsubsection{How can search problems differ in the characteristics of actions and states?}
+Search problems can habe different sets of actions and states. The way the problem is modeled decides.
+\subsubsection{Which properties are used to characterize a search method?}
+Completeness, Time and Space Complexity and optimality.
+\subsubsection{Can you explain how BFS, DFS, DLS, IDS, UCS work?}
+See above.
+\subsubsection{Compare the 5 uninformed search methods wrt. time complexity, space complexity, optimality, completeness}
+See above.
+
+\section{Heuristic (informed) search}
+Die uninformierte Suche nimmt einfach irgendwelche Knoten und sucht bei diesen weiter. Bei der informierten, heuristischen, Suche werden den Knoten (Schätz-) Werte zugewiesen, durch eine evaluierungsfunktion \(f(n)\).
+\begin{displaymath}
+f(n) = g(n) + h(n)
+\end{displaymath}
+Wobei \(g(n)\) die Kosten vom Erstzustand bis zum aktuellen Zustand und \(h(n)\) die geschätzten Kosten bis zum Ziel sind. \(h(n)\) ist hierbei die \textit{Heuristik}.
+
+\subsection{Eigenschaften von h(n)}\label{sec:heuristic_properties}
+\begin{enumerate}
+	\item \(h(n) = 0\) wenn \(n\) ein Zielzustand ist.
+	\item \(h(n)\) ist \textbf{admissible}. \\
+		Es muss die realen Kosten bis zum Ziel unterschätzen.
+	\item \(h(n)\) ist \textbf{constistent}\\
+		Vom Knoten \(n\) wären es \(\approx\) 10 bis ins Ziel. Zum Nachfolgeknoten \(n'\) kostet es 1. Dann darf der Nachfolgeknoten \(n'\) nicht plötzlich  weniger als \(\approx\) 9 haben.
+\end{enumerate}
+
+\subsection{Greedy Search}
+Greedy Search verwendet ausschliesslich die Heuristik, um den Weg ins Ziel zu finden. Es garantiert keine optimale Lösung und auch nicht, dass es überhaupt eine Lösung findet. Im Beispiel mit dem Weg von Sibiu nach Bukarest würde es immer den Knoten wählen, der näher bei Bukarest ist als die anderen.
+
+\subsection{A* Search}
+A* benutzt die vergangenen Kosten \(g(n))\) und die geschätzten nachfolgenden Kosten \(h(n)\)) und verwendet das als Sortierung für den als nächstes zu evaluierenden Knoten, verwendet also \(f(n)\).
+\begin{displaymath}
+f(n) = g(n) + h(n)
+\end{displaymath}
+ Es ist garantiert, dass wenn es eine Lösung gibt, dass A* diese findet, sofern die Heuristik die Eigenschaften von \ref{sec:heuristic_properties} erfüllt. Zudem ist die gefundene Lösung optimal. Der Nachteil ist aber, dass die Zeit- und Speicherkomplexität exponentiell wachsen. Das heisst, dass alles von der gewählten Heuristik abhängt.
+ 
+ \subsection{Beam Search}
+Beam Search baut einen Breadt-First Suchbaum auf, aber speichert in jedem Schritt davon nur die \textit{n}-besten und evaluiert danach auch nur diese. \textit{n} ist dabei die \textit{Beamwidth}.  Ist offensichtlich nicht komplett und auch nicht optimal, aber in der Praxis trotzdem manchmal nützlich, wenn der Suchraum riesig ist.
+ 
+ \subsection{IDA*}
+IDA* sucht zuerst in die Tiefe und bricht aber ab, wenn die geschätzten Kosten einen gewissen Schwellenwert überschreiten.
+ 
+ \subsection{Branch and Bound}
+ Sind mehrere Lösungen gesucht, so kann wenn eine Lösung gefunden wurde, können alle Knoten die höhere Kosten haben, weggeschnitten werden. Denn die Heuristik unterschätzt die Kosten ja immer, dann kann das gar keine gute Lösung mehr werden.
+ 
+ \subsection{Heuristiken}
+ \begin{quote}
+ 	I don't know! - Make an educated guess! --- Oliver Töngi, always.
+ \end{quote}
+ Das ist eine Heuristik. Eine gute Heuristik, ist informiert (und daher spezifisch) über das Problem.
+ \subsubsection{Manhattan Distance}
+ Für das 8 Puzzle, siehe Abbildung \ref{fig:8puzzle}, könnten z.B. die Distanzen der falsch platzierten Steine zu ihrer richtigen Position eine Heuristik darstellen. Das wäre die Manhatten Distance (weil Manhattan ja so schachbrettartig aufgebaut ist, dass man sagen kann \textit{zwei Blocks entfernt}).
+ \subsubsection{Linear Conflict Heuristic} 
+ Wenn sich zwei Steine für die Lösung im Weg sind, also mehr Moves gemacht werden müssen als nötig, wird noch extra was dazuberechnet.
+ \subsubsection{Pattern Database}
+ Man kann z.B. Teillösungen schon vorausberechnen und wiederverwenden. Für ein grösseres 8 Puzzle z.B. den Rand des Puzzles anhand einer Datenbank bilden und dann der innere Teil erst lösen. Im Schach macht man das auch so, dass man am Ende des Spiels eine vorberechnete Strategie fährt, da dort ja die Zustandsräume nicht mehr so gross sind.
+ \subsubsection{Gaschnigs Heuristic}
+ Man nehme ein zwei Constraints des Problems weg und suche da eine einfach berechenbare Lösung. z.B. 8 Puzzle als String formatieren und dann schauen, wie aufwändig es ist, das der Reihe nach zu sortieren. Wird häufig gemacht zum noch eine bessere Heuristik herauszufinden. 
+ \subsection{Summary Questions}
+\subsubsection{Explain the underlying ideas of best-first search, greedy search and beam search.}
+Best first search wählt einfach anhand einer Funktion den nächstbesten Knoten zum expandieren aus. Greedy Search ist eine Art von Best First Search und verwendet einfach nur die geschätzten Kosten bis zum Zielpunkt als Evaluation. Beam Search baut einen Breadt-First Suchbaum auf, aber speichert in jedem Schritt davon nur die \textit{n}-besten und evaluiert danach auch nur diese. \textit{n} ist dabei die \textit{Beamwidth}. 
+\subsubsection{How do the A* and IDA* algorithms work?}
+A* evaluiert die realen, bekannten Kosten bis zu einem Knoten und die geschätzten Kosten bis zum Ziel und wählt immer die besten aus. IDA* macht Tiefensuche, evaluiert dabei 
+\subsubsection{What are the principal properties of A*?}
+A* needs an admissible and constistent heuristic to work. It requires exponential complexity to solve the problem. 
+\subsubsection{Why is IDA* more efficient in practice?}
+It doesn't need exponential memory to work.
+\subsubsection{What is the principal idea behind branch and bound?}
+Die Knoten wegschneiden, welche garantiert nicht zur Lösung führen.
+\subsubsection{What are heuristics, which role do they play in informed search, and how can we develop good heuristics?}
+Heuristics are educated guesses, they help us to direct the search in the search space towards the desired goal state in an efficient manner. Heuristics are often developed with problem relaxation, whereas one or more constraints from the problem are dropped and a solution is found for the easier problem, from which process the distance to the solution with all restrictions can be guessed.
+\subsubsection{What is an admissible heuristics?}
+A heuristic which underestimates the real costs to the goal state.
+\subsubsection{What can happen to A* if it is used with a non-admissible heuristic?}
+It's guaranteed to find the optimal solution, because the too highly estimated nodes are not further evaluated.
