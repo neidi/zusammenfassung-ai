@@ -71,6 +71,34 @@
 	{€}{{\EUR}}1 {£}{{\pounds}}1
 }
 
+% Grafiken
+\usepackage{tikz}
+\usetikzlibrary{automata,arrows,positioning,calc}
+\tikzset{set dim/.style={insert path={% 
+   coordinate [pos=0] (tmpa) 
+   coordinate [pos=1] (tmpb) 
+     \pgfextra{%
+      \pgfextractx{\pgf@x}{\pgfpointanchor{tmpa}{center}}
+      \pgfextracty{\pgf@y}{\pgfpointanchor{tmpa}{center}}
+      \pgf@xa\pgf@x %
+      \pgf@ya\pgf@y %
+      \pgfextractx{\pgf@x}{\pgfpointanchor{tmpb}{center}}
+      \pgfextracty{\pgf@y}{\pgfpointanchor{tmpb}{center}}
+      \pgf@xb\pgf@x %
+      \pgf@yb\pgf@y %
+      \advance\pgf@xb by -\pgf@xa 
+      \advance\pgf@yb by -\pgf@ya
+      }%
+     }, minimum width=\pgf@xb,minimum height=\pgf@yb
+     }%
+  }%
+
+% Mathematik
+\usepackage{amsmath,amsfonts,amsthm, amssymb} % Math packages
+
+% Textformatierung
+\usepackage{ulem}
+
 
 \setcounter{chapter}{-1}
 
