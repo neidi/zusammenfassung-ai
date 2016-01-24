@@ -1,0 +1,48 @@
+\chapter{Problemkomplexität}
+\section{Einleitung}
+Exponentielle Komplexität ist schlecht, polynomiale in Ordnung, Lineare perfekt. Schnellere Computer helfen bei solchen Problemen leider nicht. Das gute ist, man kann mit nicht-perfekten Lösungen meistens leben, das heisst, wenn sie nicht beliebig schlecht sind.
+\subsection{Entscheidungsprobleme}
+Aus Bequemheitsgründen sind alle Probleme so formuliert, dass sie am Schluss entweder ein \textit{Ja} oder \textit{Nein} zurückliefern. z.B. \textit{Gegeben dieses Schachbrett - gewinnt Weiss?}
+\section{Turing Maschine}
+Turing Maschine operiert auf einem (endlosen) Band und kann lesen / schreiben und das Band nach links oder rechts bewegen. Es ist die Simpelst-Mögliche Rechenmaschine und trotzdem kann sie, wenn man genügend Zeit dafür hat, jedes mathematische Problem lösen, dass auch ein anderer Computer lösen kann - sprich, der 1'000 CHF PC von heute 'kann' nicht mehr als der vor 10 Jahren, nur er kann es schneller.
+
+\subsection{Deterministic Turing Maschine (DTM)}
+Ein Regelbuch, welches immer maximal eine Aktion beschreibt für jede gegebene Situation. Kann P Probleme in polynomialer Zeit lösen, NP nur in exponentieller Zeit.
+\subsection{Non-Deterministic Turing Maschine (NTM)}\label{sec:ntm}
+Ein Regelbuch, welches auch mehrere Aktionen für eine gegebene Situation ausführen kann. Eine NTM nimmt für jede Variante 'durch Magie \& Glück' die korrekte, und kann dadurch NP Probleme in polynomialer Zeit lösen. Jede solche Maschine kann durch eine deterministische Maschine simuliert werden, aber die muss halt jede mögliche Auswahl dabei simulieren und braucht dadurch exponentiell viel Zeit.
+ 
+\section{NP Probleme}
+\subsection{Beispiel}
+Wir haben eine Menge, bestehend aus diesen Zahlen:
+\begin{displaymath}
+S = \{ -10, -3, -2,7, 14, 15 \}
+\end{displaymath}
+Gibt es eine Menge bestehend aus diesen Zahlen, deren Summe 0 ergibt?
+
+\subsection{Definition}
+Entscheidungsprobleme, welche in polynomialer Zeit lösbar sind mit einem Algorithmus, welcher irgendwie immer die richtige Entscheidung wählt. Es bedient sich dabei bei dem nicht-deterministischen Modell der Berechnung. Siehe Abschnitt \ref{sec:ntm}. NP Probleme haben eines gemeinsam: Die Verifikation der Lösung ist möglich in polynomialer Zeit. Das Finden aber mit jeder zusätzlichen Zahl exponentiell schwierig. 
+
+\section{P \(=\) NP}
+P \(=\) NP besagt, dass alle Probleme in NP, das heisst die Probleme, welche nur in exponentieller Zeit gelöst werden können, irgendwann auch in polynomialer Zeit von Computern gelöst werden können. Das würde bedeuten, dass für Probleme, bei denen wir die Lösung einfach verifizieren können, die Lösung auch einfach finden können. Ist bis heute (Januar 2016) nicht bewiesen.
+
+\subsection{NP Schwierig}
+Ein Problem, welches mindestens gleich schwierig wie alle anderen Probleme in NP ist. Tetris ist z.B. ein solches NP schweres Problem, d.h. es ist das schwierigste Problem in NP - wenn es NP wirklich gibt.
+\subsection{NP Komplett}
+NP Komplett ist eine Untermenge der NP Probleme und bedeutet, dass jedes Problem in dieser Menge dasselbe zu Grunde liegende Problem besitzt - z.B. das \textit{satisfiability} Problem. Das heisst, dass eine Lösung zu diesem Problem in polynomialer Zeit, alle anderen NP Probleme gleichzeitig auch lösen würde. Ein NP komplettes Problem, ist daher auch NP schwierig - weil das zu Grunde liegende Problem muss ja min. gleich schwer sein wie alle anderen Probleme in NP, um alle anderen Probleme auch lösen zu können. 
+
+\subsection{Problemreduzierung}
+z.B. Dijkstra funktioniert nur mit Graphen, welche ein Gewicht haben. Das heisst, dass Probleme mit Graphen ohne Gewicht auch mit Dijkstra gelöst werden können, wenn  man einfach ein Gewicht von 1 nimmt. Man wandelt das Ausgangsproblem also irgendwie um in ein anderes Problem. Wir haben also ein Problem A und wandelt das in ein Problem B um. B ist also mindestens so schwierig sein wie A. Dies geschieht bei NP Kompletten Problemen. Diese sind alle auf einander reduzierbar. Das heisst, wenn ein Problem, welches NP Komplett ist, in P gelöst wird, dann sind alle anderen NP kompletten Problem (und NP Probleme) in P gelöst, weil diese ja auf dieses Problem reduzierbar sind. Das heisst auch, dass wenn wir zeigen können, dass wenn ein bekanntes NP komplettes Problem auf ein neues Problem reduzierbar ist, dieses Problem ebenfalls NP komplett ist. Das erste Problem, welches NP komplett ist, ist das \textit{satisfiability} Problem.
+
+\section{Satisfiability Problem}
+Gibt es eine Kombination von Boolean - Variabeln, welche machen dass folgender Ausdruck wahr ist:
+\begin{displaymath}
+(X \lor Y) \land\neg X
+\end{displaymath}
+
+\section{Andere Problem-Mengen}
+\begin{enumerate}
+	\item \textbf{EXP} \\
+	Probleme, die in exponentieller Zeit lösbar sind, z.B. Schach, oder Tetris.
+	\item \textbf{R} \\
+	Probleme, die in endlicher Zeit lösbar sind.
+\end{enumerate}
